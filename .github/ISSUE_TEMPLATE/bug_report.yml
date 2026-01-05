@@ -1,0 +1,101 @@
+name: "Bug Report"
+description: "Something isn't working correctly"
+title: "[Bug]: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 🐞 Report a Bug
+        Thanks for helping us improve! Please fill out the sections below so we can understand and fix the issue.
+
+  - type: dropdown
+    id: affected_tool
+    attributes:
+      label: Which tool has the problem?
+      options:
+        - DevTools Plus
+        - DevOps Plus
+        - LiveDoc
+    validations:
+      required: true
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: What happened?
+      description: Describe the bug in a sentence or two.
+      placeholder: "Example: When I click 'Generate Report', nothing happens and I see a spinning icon forever."
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: How can we reproduce it?
+      description: Walk us through the steps to see the bug. Be as specific as you can.
+      placeholder: |
+        1. Open the tool and go to...
+        2. Click on...
+        3. Notice that...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect to happen?
+      placeholder: "Example: I expected the report to download as a PDF."
+    validations:
+      required: true
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: How much is this affecting you?
+      options:
+        - "Low — Minor inconvenience, I can work around it"
+        - "Medium — It's frustrating but I have a workaround"
+        - "High — I'm blocked and can't continue my work"
+        - "Critical — Production issue or security concern"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: os
+    attributes:
+      label: What operating system are you using?
+      options:
+        - Windows
+        - macOS
+        - Linux
+        - Other / Not sure
+    validations:
+      required: true
+
+  - type: dropdown
+    id: browser
+    attributes:
+      label: Which browser are you using?
+      options:
+        - Chrome
+        - Edge
+        - Firefox
+        - Safari
+        - Other / Not applicable
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Screenshots or error messages (optional)
+      description: Paste any error text or drag-and-drop screenshots here. Please remove any passwords or secrets.
+      render: shell
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Anything else?
+      description: Any other details that might help us — recent changes, related issues, timing, etc.

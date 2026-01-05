@@ -1,0 +1,93 @@
+name: "Support Request"
+description: "Get help with a tool or workflow"
+title: "[Support]: "
+labels:
+  - support
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 💬 Need Help?
+        No problem — that's what we're here for! Tell us what you're trying to do and we'll get back to you.
+
+  - type: dropdown
+    id: affected_tool
+    attributes:
+      label: Which tool do you need help with?
+      options:
+        - DevTools Plus
+        - DevOps Plus
+        - LiveDoc
+        - Not sure / General question
+    validations:
+      required: true
+
+  - type: textarea
+    id: request
+    attributes:
+      label: What are you trying to do?
+      description: Describe what you want to accomplish and where you're stuck.
+      placeholder: "Example: I'm trying to set up automated deployments but I don't know where to configure the target environment."
+    validations:
+      required: true
+
+  - type: textarea
+    id: tried
+    attributes:
+      label: What have you tried so far? (optional)
+      description: This helps us avoid suggesting things you've already done.
+      placeholder: |
+        - Looked at the docs but couldn't find...
+        - Tried changing the setting for...
+        - Asked a colleague who suggested...
+
+  - type: textarea
+    id: errors
+    attributes:
+      label: Any error messages? (optional)
+      description: If you're seeing an error, paste it here. Please remove any passwords or secrets.
+      render: shell
+
+  - type: dropdown
+    id: os
+    attributes:
+      label: What operating system are you using?
+      options:
+        - Windows
+        - macOS
+        - Linux
+        - Other / Not sure
+    validations:
+      required: true
+
+  - type: dropdown
+    id: browser
+    attributes:
+      label: Which browser are you using?
+      options:
+        - Chrome
+        - Edge
+        - Firefox
+        - Safari
+        - Other / Not applicable
+    validations:
+      required: true
+
+  - type: input
+    id: tool_version
+    attributes:
+      label: Version (if known)
+      placeholder: "Example: 2.1.0"
+
+  - type: dropdown
+    id: urgency
+    attributes:
+      label: How urgent is this?
+      description: This helps us prioritize — but we respond to everything!
+      options:
+        - "No rush — just when you get a chance"
+        - "This week would be great"
+        - "Soon — it's blocking my current task"
+        - "Urgent — blocking a release or deadline"
+    validations:
+      required: true

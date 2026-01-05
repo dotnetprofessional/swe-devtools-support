@@ -1,0 +1,66 @@
+name: "Feature Request"
+description: "Suggest an improvement or new feature"
+title: "[Feature]: "
+labels:
+  - enhancement
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 💡 Share Your Idea
+        We love hearing how we can make our tools better. Tell us what you have in mind!
+
+  - type: dropdown
+    id: affected_tool
+    attributes:
+      label: Which tool is this idea for?
+      options:
+        - DevTools Plus
+        - DevOps Plus
+        - LiveDoc
+        - New tool / General idea
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem would this solve?
+      description: Help us understand the pain point or opportunity.
+      placeholder: "Example: Right now I have to manually export data every time, which takes about 10 minutes and is easy to forget."
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What's your idea?
+      description: Describe what you'd like to see — it doesn't have to be technical!
+      placeholder: "Example: Add a 'Schedule Export' button that lets me set up automatic daily exports."
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Have you tried any workarounds? (optional)
+      description: If you're currently doing something to work around this, let us know.
+      placeholder: "Example: I set a calendar reminder to do it manually each morning."
+
+  - type: dropdown
+    id: impact
+    attributes:
+      label: How much would this help you?
+      options:
+        - "Nice to have — would make things a bit easier"
+        - "Helpful — would save me noticeable time or effort"
+        - "Very helpful — would significantly improve my workflow"
+        - "Game changer — would transform how I work"
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Anything else? (optional)
+      description: Screenshots, mockups, links to similar features in other tools — anything that helps explain your idea.

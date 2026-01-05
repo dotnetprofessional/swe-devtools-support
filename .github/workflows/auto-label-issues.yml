@@ -1,0 +1,119 @@
+name: Auto-label Issues
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  label-issue:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Add labels based on issue form selections
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issueBody = context.payload.issue.body || '';
+            const issueTitle = context.payload.issue.title || '';
+            const labelsToAdd = [];
+
+            // --- All new issues need triage ---
+            labelsToAdd.push('needs-triage');
+
+            // --- Tool labels ---
+            const toolMatch = issueBody.match(/### Which tool[^\n]*\n\n([^\n]+)/i) 
+                           || issueBody.match(/### Which tool[^\n]*\n([^\n]+)/i);
+            if (toolMatch) {
+              const tool = toolMatch[1].trim().toLowerCase();
+              if (tool.includes('devtools plus')) {
+                labelsToAdd.push('tool:devtools-plus');
+              } else if (tool.includes('devops plus')) {
+                labelsToAdd.push('tool:devops-plus');
+              } else if (tool.includes('livedoc')) {
+                labelsToAdd.push('tool:livedoc');
+              }
+            }
+
+            // --- Severity labels (Bug Reports) ---
+            const severityMatch = issueBody.match(/### How much is this affecting you\?\n\n([^\n]+)/i)
+                               || issueBody.match(/### How much is this affecting you\?\n([^\n]+)/i);
+            if (severityMatch) {
+              const severity = severityMatch[1].trim().toLowerCase();
+              if (severity.includes('critical')) {
+                labelsToAdd.push('severity:critical');
+              } else if (severity.includes('high')) {
+                labelsToAdd.push('severity:high');
+              } else if (severity.includes('medium')) {
+                labelsToAdd.push('severity:medium');
+              } else if (severity.includes('low')) {
+                labelsToAdd.push('severity:low');
+              }
+            }
+
+            // --- Urgency labels (Support Requests) ---
+            const urgencyMatch = issueBody.match(/### How urgent is this\?\n\n([^\n]+)/i)
+                              || issueBody.match(/### How urgent is this\?\n([^\n]+)/i);
+            if (urgencyMatch) {
+              const urgency = urgencyMatch[1].trim().toLowerCase();
+              if (urgency.includes('urgent')) {
+                labelsToAdd.push('urgent');
+              } else if (urgency.includes('soon')) {
+                labelsToAdd.push('priority:soon');
+              }
+            }
+
+            // --- Impact labels (Feature Requests) ---
+            const impactMatch = issueBody.match(/### How much would this help you\?\n\n([^\n]+)/i)
+                             || issueBody.match(/### How much would this help you\?\n([^\n]+)/i);
+            if (impactMatch) {
+              const impact = impactMatch[1].trim().toLowerCase();
+              if (impact.includes('game changer')) {
+                labelsToAdd.push('impact:high');
+              } else if (impact.includes('very helpful')) {
+                labelsToAdd.push('impact:medium');
+              }
+            }
+
+            // --- Browser labels (for web-specific triage) ---
+            const browserMatch = issueBody.match(/### Which browser[^\n]*\n\n([^\n]+)/i)
+                              || issueBody.match(/### Which browser[^\n]*\n([^\n]+)/i);
+            if (browserMatch) {
+              const browser = browserMatch[1].trim().toLowerCase();
+              if (browser.includes('safari')) {
+                labelsToAdd.push('browser:safari');
+              } else if (browser.includes('firefox')) {
+                labelsToAdd.push('browser:firefox');
+              } else if (browser.includes('edge')) {
+                labelsToAdd.push('browser:edge');
+              } else if (browser.includes('chrome')) {
+                labelsToAdd.push('browser:chrome');
+              }
+            }
+
+            // --- OS labels ---
+            const osMatch = issueBody.match(/### What operating system[^\n]*\n\n([^\n]+)/i)
+                         || issueBody.match(/### What operating system[^\n]*\n([^\n]+)/i);
+            if (osMatch) {
+              const os = osMatch[1].trim().toLowerCase();
+              if (os.includes('windows')) {
+                labelsToAdd.push('os:windows');
+              } else if (os.includes('macos')) {
+                labelsToAdd.push('os:macos');
+              } else if (os.includes('linux')) {
+                labelsToAdd.push('os:linux');
+              }
+            }
+
+            // Add labels if any were detected
+            if (labelsToAdd.length > 0) {
+              console.log(`Adding labels: ${labelsToAdd.join(', ')}`);
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                labels: labelsToAdd
+              });
+            } else {
+              console.log('No additional labels to add based on issue content.');
+            }
